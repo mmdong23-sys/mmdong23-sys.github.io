@@ -902,19 +902,18 @@
             }
         }
 
-        @media (max-width: 768px) {
-            .navbar {
-                padding: 0 30px;
-                height: 70px;
-            }
+@media (max-width: 768px) {
+    /* 不隐藏整个 nav-links */
+    .nav-links {
+        display: flex;
+        gap: 0;
+    }
 
-            .nav-links {
-                display: none;
-            }
-
-            .section {
-                padding: 80px 30px;
-            }
+    /* 只隐藏普通菜单，保留语言按钮 */
+    .nav-links li:not(.lang-item) {
+        display: none;
+    }
+}
 
             .hero-section {
                 padding: 100px 30px 60px;
@@ -946,7 +945,7 @@
             <li><a href="#experience" class="nav-link" data-i18n="nav-experience">Experience</a></li>
             <li><a href="#skills" class="nav-link" data-i18n="nav-skills">Skills</a></li>
             <li><a href="#contact" class="nav-link" data-i18n="nav-contact">Contact</a></li>
-            <li>
+            <li class="lang-item">
                 <div class="lang-dropdown" id="langDropdown">
                     <button class="lang-btn" id="langBtn">
                         <span id="currentLang">English</span>
