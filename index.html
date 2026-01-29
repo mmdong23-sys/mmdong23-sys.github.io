@@ -1,0 +1,1581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manman Dong - Digital Marketing & Strategy Professional</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #FF6B9D;
+            --secondary: #845EC2;
+            --accent: #4FFBDF;
+            --gold: #FFB84D;
+            --bg-dark: #0a0a0f;
+            --bg-card: rgba(255, 255, 255, 0.03);
+            --text-light: #E8E8F0;
+            --text-muted: rgba(232, 232, 240, 0.6);
+            --border: rgba(255, 255, 255, 0.08);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-light);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+            line-height: 1.6;
+        }
+
+        /* Custom Cursor */
+        .cursor {
+            position: fixed;
+            width: 24px;
+            height: 24px;
+            border: 2px solid var(--primary);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 10000;
+            transition: all 0.15s ease;
+            mix-blend-mode: difference;
+        }
+
+        .cursor.hover {
+            transform: scale(2.5);
+            background: rgba(255, 107, 157, 0.15);
+            border-width: 1px;
+        }
+
+        /* Animated Background */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .gradient-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(130px);
+            opacity: 0.18;
+            animation: float 25s infinite ease-in-out;
+        }
+
+        .orb1 {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, var(--primary), transparent);
+            top: -150px;
+            left: -150px;
+        }
+
+        .orb2 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, var(--secondary), transparent);
+            bottom: -150px;
+            right: -150px;
+            animation-delay: 8s;
+        }
+
+        .orb3 {
+            width: 450px;
+            height: 450px;
+            background: radial-gradient(circle, var(--accent), transparent);
+            top: 50%;
+            right: 10%;
+            animation-delay: 16s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(100px, -100px) rotate(120deg); }
+            66% { transform: translate(-100px, 100px) rotate(240deg); }
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(10, 10, 15, 0.85);
+            backdrop-filter: blur(30px);
+            border-bottom: 1px solid var(--border);
+            padding: 0 60px;
+            height: 80px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            height: 70px;
+            background: rgba(10, 10, 15, 0.95);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-brand {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 45px;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            position: relative;
+            transition: color 0.3s ease;
+            letter-spacing: 0.3px;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        /* Language Dropdown */
+        .lang-dropdown {
+            position: relative;
+        }
+
+        .lang-btn {
+            padding: 10px 24px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            color: var(--text-light);
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn:hover {
+            background: rgba(255, 107, 157, 0.15);
+            border-color: var(--primary);
+        }
+
+        .lang-btn::after {
+            content: '▼';
+            font-size: 0.7rem;
+            transition: transform 0.3s ease;
+        }
+
+        .lang-dropdown.active .lang-btn::after {
+            transform: rotate(180deg);
+        }
+
+        .lang-menu {
+            position: absolute;
+            top: calc(100% + 10px);
+            right: 0;
+            background: rgba(10, 10, 15, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 8px;
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+        }
+
+        .lang-dropdown.active .lang-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .lang-option {
+            padding: 12px 20px;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.95rem;
+        }
+
+        .lang-option:hover {
+            background: rgba(255, 107, 157, 0.1);
+            transform: translateX(5px);
+        }
+
+        .lang-option.active {
+            background: linear-gradient(135deg, rgba(255, 107, 157, 0.2), rgba(132, 94, 194, 0.2));
+            border-left: 3px solid var(--primary);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 120px 60px 80px;
+        }
+
+        .hero-container {
+            position: relative;
+            z-index: 10;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .hero-content {
+            animation: fadeInLeft 1s ease;
+        }
+
+        .hero-label {
+            display: inline-block;
+            padding: 8px 20px;
+            background: rgba(255, 107, 157, 0.15);
+            border: 1px solid rgba(255, 107, 157, 0.3);
+            border-radius: 25px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 25px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 7vw, 5rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 15px;
+            letter-spacing: -2px;
+        }
+
+        .hero-title .gradient-text {
+            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 25px;
+        }
+
+        .hero-tagline {
+            font-size: 1.15rem;
+            line-height: 1.8;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+            max-width: 600px;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 16px 40px;
+            font-size: 1rem;
+            font-weight: 700;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-light);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        .hero-image {
+            position: relative;
+            animation: fadeInRight 1s ease;
+        }
+
+        .profile-photo-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .profile-photo {
+            width: 100%;
+            height: auto;
+            border-radius: 30px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4);
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.5s ease;
+        }
+
+        .profile-photo:hover {
+            transform: scale(1.02) translateY(-10px);
+            box-shadow: 0 40px 100px rgba(132, 94, 194, 0.5);
+            border-color: var(--primary);
+        }
+
+        .photo-backdrop {
+            position: absolute;
+            top: -30px;
+            right: -30px;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 30px;
+            z-index: -1;
+            opacity: 0.15;
+        }
+
+        @keyframes fadeInLeft {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes fadeInRight {
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* Section Styling */
+        .section {
+            position: relative;
+            z-index: 1;
+            padding: 120px 60px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .section-label {
+            display: inline-block;
+            padding: 6px 18px;
+            background: rgba(132, 94, 194, 0.15);
+            border: 1px solid rgba(132, 94, 194, 0.3);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--secondary);
+            margin-bottom: 20px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .section-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 900;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-subtitle {
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        /* Education Section */
+        .education-grid {
+            display: grid;
+            gap: 30px;
+            margin-bottom: 80px;
+        }
+
+        .education-card {
+            padding: 40px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            transition: all 0.5s ease;
+        }
+
+        .education-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--secondary);
+            transform: translateY(-10px);
+            box-shadow: 0 30px 80px rgba(132, 94, 194, 0.4);
+        }
+
+        .education-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .education-school {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .education-period {
+            color: var(--gold);
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+
+        .education-degree {
+            font-size: 1.1rem;
+            color: rgba(232, 232, 240, 0.9);
+            margin-bottom: 8px;
+        }
+
+        .education-location {
+            color: rgba(232, 232, 240, 0.6);
+            font-size: 0.95rem;
+        }
+
+        .education-achievement {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding: 60px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(180deg, var(--primary), var(--secondary), var(--accent));
+            transform: translateX(-50%);
+            opacity: 0.2;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 100px;
+            opacity: 0.3;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .timeline-item:hover {
+            opacity: 1;
+            transform: scale(1.03);
+        }
+
+        .timeline:hover .timeline-item:not(:hover) {
+            opacity: 0.15;
+            filter: blur(2px);
+        }
+
+        .timeline-content {
+            position: relative;
+            width: 45%;
+            padding: 50px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 28px;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .timeline-item:nth-child(even) .timeline-content {
+            margin-left: auto;
+        }
+
+        .timeline-item:hover .timeline-content {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--primary);
+            box-shadow: 0 40px 100px rgba(132, 94, 194, 0.5);
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: 50%;
+            top: 60px;
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border: 5px solid var(--bg-dark);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            transition: all 0.4s ease;
+        }
+
+        .timeline-item:hover .timeline-dot {
+            width: 36px;
+            height: 36px;
+            box-shadow: 0 0 40px var(--primary), 0 0 80px var(--secondary);
+        }
+
+        .timeline-date {
+            font-size: 0.9rem;
+            color: var(--gold);
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: 0.5px;
+        }
+
+        .timeline-location {
+            display: inline-block;
+            padding: 6px 16px;
+            background: rgba(255, 107, 157, 0.15);
+            border: 1px solid rgba(255, 107, 157, 0.3);
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .timeline-company {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, var(--primary), var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .timeline-role {
+            font-size: 1.15rem;
+            color: rgba(232, 232, 240, 0.9);
+            margin-bottom: 25px;
+            font-weight: 500;
+        }
+
+        .timeline-achievements {
+            list-style: none;
+        }
+
+        .timeline-achievements li {
+            color: var(--text-muted);
+            margin-bottom: 14px;
+            padding-left: 30px;
+            position: relative;
+            line-height: 1.7;
+        }
+
+        .timeline-achievements li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 1.3rem;
+        }
+
+        /* Skills Grid */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 25px;
+            margin-top: 60px;
+        }
+
+        .skill-item {
+            padding: 30px 20px;
+            text-align: center;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .skill-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255, 107, 157, 0.1), rgba(132, 94, 194, 0.1));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .skill-item:hover::before {
+            opacity: 1;
+        }
+
+        .skill-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--primary);
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 25px 50px rgba(132, 94, 194, 0.4);
+        }
+
+        .skill-name {
+            position: relative;
+            z-index: 1;
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        /* Languages & Hobbies */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .info-card {
+            padding: 50px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 28px;
+            transition: all 0.5s ease;
+        }
+
+        .info-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--secondary);
+            transform: translateY(-10px);
+            box-shadow: 0 30px 80px rgba(132, 94, 194, 0.4);
+        }
+
+        .info-card-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 30px;
+            background: linear-gradient(90deg, var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .info-list {
+            list-style: none;
+        }
+
+        .info-list li {
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .info-list li:hover {
+            padding-left: 10px;
+            color: var(--primary);
+        }
+
+        .info-level {
+            padding: 4px 12px;
+            background: rgba(255, 107, 157, 0.15);
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--gold);
+        }
+
+        /* Contact Section */
+        .contact-section {
+            padding: 150px 60px;
+            text-align: center;
+            background: linear-gradient(180deg, transparent, rgba(132, 94, 194, 0.05));
+            border-top: 1px solid var(--border);
+        }
+
+        .contact-title {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 900;
+            margin-bottom: 60px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .contact-category {
+            text-align: left;
+        }
+
+        .contact-category-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .contact-item {
+            padding: 18px 25px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            margin-bottom: 12px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .contact-item:hover {
+            background: rgba(255, 107, 157, 0.1);
+            border-color: var(--primary);
+            transform: translateX(10px);
+        }
+
+        .contact-item a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 0.95rem;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 40px 60px;
+            text-align: center;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+                gap: 60px;
+            }
+
+            .timeline::before {
+                left: 30px;
+            }
+
+            .timeline-content {
+                width: calc(100% - 100px);
+                margin-left: 100px !important;
+            }
+
+            .timeline-dot {
+                left: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 0 30px;
+                height: 70px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .section {
+                padding: 80px 30px;
+            }
+
+            .hero-section {
+                padding: 100px 30px 60px;
+            }
+
+            .cursor {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Custom Cursor -->
+    <div class="cursor"></div>
+
+    <!-- Animated Background -->
+    <div class="animated-bg">
+        <div class="gradient-orb orb1"></div>
+        <div class="gradient-orb orb2"></div>
+        <div class="gradient-orb orb3"></div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-brand" data-i18n="name">Manman Dong</div>
+        <ul class="nav-links">
+            <li><a href="#about" class="nav-link" data-i18n="nav-about">About Me</a></li>
+            <li><a href="#experience" class="nav-link" data-i18n="nav-experience">Experience</a></li>
+            <li><a href="#skills" class="nav-link" data-i18n="nav-skills">Skills</a></li>
+            <li><a href="#contact" class="nav-link" data-i18n="nav-contact">Contact</a></li>
+            <li>
+                <div class="lang-dropdown" id="langDropdown">
+                    <button class="lang-btn" id="langBtn">
+                        <span id="currentLang">English</span>
+                    </button>
+                    <div class="lang-menu" id="langMenu">
+                        <div class="lang-option active" data-lang="en">🇬🇧 English</div>
+                        <div class="lang-option" data-lang="fr">🇫🇷 Français</div>
+                        <div class="lang-option" data-lang="es">🇪🇸 Español</div>
+                        <div class="lang-option" data-lang="zh">🇨🇳 中文</div>
+                        <div class="lang-option" data-lang="de">🇩🇪 Deutsch</div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section" id="about">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-label" data-i18n="hero-label">Available Summer 2026</div>
+                <h1 class="hero-title">
+                    <span class="gradient-text" data-i18n="name">Manman Dong</span>
+                </h1>
+                <p class="hero-subtitle" data-i18n="hero-subtitle">Digital Marketing Professional</p>
+                <p class="hero-tagline" data-i18n="hero-tagline">
+                    Globally minded, analytical professional with experience across Europe and Asia. Working at the intersection of strategy, collaboration, and data-driven decision-making to create meaningful impact.
+                </p>
+                <div class="hero-cta">
+                    <a href="https://www.linkedin.com/in/manman-dong" target="_blank" class="btn btn-secondary">
+                        💼 LinkedIn
+                    </a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="profile-photo-container">
+                    <img src="profile-photo.jpg" alt="Manman Dong" class="profile-photo">
+                    <div class="photo-backdrop"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Education Section -->
+    <section class="section">
+        <div class="section-header">
+            <div class="section-label" data-i18n="edu-label">Academic Background</div>
+            <h2 class="section-title" data-i18n="education">Education</h2>
+        </div>
+
+        <div class="education-grid">
+            <div class="education-card">
+                <div class="education-header">
+                    <div class="education-school">ESCP Business School</div>
+                    <div class="education-period">10/2025 - 06/2026</div>
+                </div>
+                <div class="education-degree" data-i18n="escp-degree">Master in Marketing and Digital Media | Big Data & Analytics Track</div>
+                <div class="education-location" data-i18n="escp-location">Spain - USA - Germany</div>
+            </div>
+
+            <div class="education-card">
+                <div class="education-header">
+                    <div class="education-school" data-i18n="angers">University of Angers</div>
+                    <div class="education-period">09/2022 - 06/2025</div>
+                </div>
+                <div class="education-degree" data-i18n="angers-degree">Bachelor's Degree in Tourism Management</div>
+                <div class="education-location" data-i18n="france">France</div>
+            </div>
+
+            <div class="education-card">
+                <div class="education-header">
+                    <div class="education-school">National University of Singapore</div>
+                    <div class="education-period">07/2022 - 09/2022</div>
+                </div>
+                <div class="education-degree" data-i18n="nus-program">Summer Program</div>
+                <div class="education-location">Singapore</div>
+                <div class="education-achievement">
+                    <span data-i18n="nus-achievement">🏆 Ranked 2nd among 20 teams in NUS International Economics and Finance Project</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section class="section" id="experience">
+        <div class="section-header">
+            <div class="section-label" data-i18n="exp-label">Career Journey</div>
+            <h2 class="section-title" data-i18n="experience">Professional Experience</h2>
+            <p class="section-subtitle" data-i18n="exp-subtitle">
+                From Paris to Beijing, delivering measurable impact across marketing, product management, and digital innovation.
+            </p>
+        </div>
+
+        <div class="timeline">
+            <!-- AECECCI -->
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="timeline-date">05/2025 - 08/2025</div>
+                    <span class="timeline-location" data-i18n="france">France</span>
+                    <h3 class="timeline-company">AECECCI</h3>
+                    <p class="timeline-role" data-i18n="aececci-role">Digital Marketing & Project Management Assistant</p>
+                    <ul class="timeline-achievements">
+                        <li data-i18n="aececci-1">Led full organization of a Sino-European Business Promotion Conference during VivaTech 2025, connecting with 35 European companies</li>
+                        <li data-i18n="aececci-2">Optimized Zoho CRM system, improving lead tracking efficiency by structuring client data from business events</li>
+                        <li data-i18n="aececci-3">Created marketing visuals increasing online engagement by 30%</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Swire Coca-Cola -->
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="timeline-date">06/2024 - 09/2024</div>
+                    <span class="timeline-location" data-i18n="china">China</span>
+                    <h3 class="timeline-company">Swire Coca-Cola</h3>
+                    <p class="timeline-role" data-i18n="swire-role">Product Specialist Intern</p>
+                    <ul class="timeline-achievements">
+                        <li data-i18n="swire-1">Executed 'One Bottle Relay' CSR campaign across 836 stores, ensuring on-time delivery</li>
+                        <li data-i18n="swire-2">Conducted A/B testing using Python, improving in-store conversion by 14%</li>
+                        <li data-i18n="swire-3">Collaborated with cross-functional teams to adapt promotional strategies for local market</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- China Telecom -->
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="timeline-date">06/2023 - 09/2023</div>
+                    <span class="timeline-location" data-i18n="china">China</span>
+                    <h3 class="timeline-company">China Telecom</h3>
+                    <p class="timeline-role" data-i18n="telecom-role">Product Promotion Intern</p>
+                    <ul class="timeline-achievements">
+                        <li data-i18n="telecom-1">Facilitated 5G-VR Tourism Experience Project launch across 5 retail centers</li>
+                        <li data-i18n="telecom-2">Analyzed visitor feedback using SQL, increasing demo participation by 25%</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- iFLYTEK -->
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="timeline-date">12/2022 - 03/2023</div>
+                    <span class="timeline-location" data-i18n="china">China</span>
+                    <h3 class="timeline-company">iFLYTEK</h3>
+                    <p class="timeline-role" data-i18n="iflytek-role">Project Management Intern, AI Resources Department</p>
+                    <ul class="timeline-achievements">
+                        <li data-i18n="iflytek-1">Monitored KPIs for multilingual voice recognition, improving accuracy by 15% weekly</li>
+                        <li data-i18n="iflytek-2">Integrated 10,000+ user data points using Spotfire for customer segmentation</li>
+                        <li data-i18n="iflytek-3">Reduced project turnaround time by 20% through coordination and reporting</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="section" id="skills">
+        <div class="section-header">
+            <div class="section-label" data-i18n="skills-label">What I Bring</div>
+            <h2 class="section-title" data-i18n="skills">Technical Arsenal</h2>
+            <p class="section-subtitle" data-i18n="skills-subtitle">
+                Equipped with modern marketing technology and analytical tools to drive results.
+            </p>
+        </div>
+
+        <div class="skills-grid">
+            <div class="skill-item"><div class="skill-name">Google Analytics</div></div>
+            <div class="skill-item"><div class="skill-name">CRM</div></div>
+            <div class="skill-item"><div class="skill-name">Python</div></div>
+            <div class="skill-item"><div class="skill-name">SQL</div></div>
+            <div class="skill-item"><div class="skill-name">PowerBI</div></div>
+            <div class="skill-item"><div class="skill-name">SPSS</div></div>
+            <div class="skill-item"><div class="skill-name">Spotfire</div></div>
+            <div class="skill-item"><div class="skill-name">Canva</div></div>
+            <div class="skill-item"><div class="skill-name">Photoshop</div></div>
+            <div class="skill-item"><div class="skill-name">Microsoft Office</div></div>
+            <div class="skill-item"><div class="skill-name">A/B Testing</div></div>
+            <div class="skill-item"><div class="skill-name" data-i18n="skill-ai">Artificial Intelligence</div></div>
+        </div>
+
+        <div class="info-grid">
+            <div class="info-card">
+                <h3 class="info-card-title" data-i18n="languages">Languages</h3>
+                <ul class="info-list">
+                    <li>
+                        <span data-i18n="lang-chinese">Chinese</span>
+                        <span class="info-level" data-i18n="level-native">Native</span>
+                    </li>
+                    <li>
+                        <span data-i18n="lang-english">English</span>
+                        <span class="info-level">C2</span>
+                    </li>
+                    <li>
+                        <span data-i18n="lang-french">French</span>
+                        <span class="info-level">C1</span>
+                    </li>
+                    <li>
+                        <span data-i18n="lang-spanish">Spanish</span>
+                        <span class="info-level">A2</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="info-card">
+                <h3 class="info-card-title" data-i18n="hobbies">Hobbies & Interests</h3>
+                <ul class="info-list">
+                    <li>
+                        <span>📸 <span data-i18n="hobby-photo">Photography</span></span>
+                    </li>
+                    <li>
+                        <span>⛷️ <span data-i18n="hobby-ski">Skiing</span></span>
+                    </li>
+                    <li>
+                        <span>🌍 <span data-i18n="hobby-travel">Cross-cultural Experiences</span></span>
+                    </li>
+                    <li>
+                        <span>🎥 <span data-i18n="hobby-vlog">Vlogging</span></span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section" id="contact">
+        <h2 class="contact-title" data-i18n="contact">Let's Connect</h2>
+        
+        <div class="contact-grid">
+            <div class="contact-category">
+                <h3 class="contact-category-title">✉️ <span data-i18n="contact-email">Email</span></h3>
+                <div class="contact-item">
+                    <a href="/cdn-cgi/l/email-protection#2e434f40434f40004a4140496e4b4a5b004b5d4d5e004b5b"><span class="__cf_email__" data-cfemail="412c202f2c202f6f252e2f26012425346f243222316f2434">[email&#160;protected]</span></a>
+                </div>
+                <div class="contact-item">
+                    <a href="/cdn-cgi/l/email-protection#70141d1d42404044404142424230171d11191c5e131f1d"><span class="__cf_email__" data-cfemail="91f5fcfca3a1a1a5a1a0a3a3a3d1f6fcf0f8fdbff2fefc">[email&#160;protected]</span></a>
+                </div>
+            </div>
+
+            <div class="contact-category">
+                <h3 class="contact-category-title">📞 <span data-i18n="contact-call">Call</span></h3>
+                <div class="contact-item">
+                    <a href="tel:+33651941437">🇫🇷 +33 6 51 94 14 37</a>
+                </div>
+                <div class="contact-item">
+                    <a href="tel:+34637949106">🇪🇸 +34 637 949 106</a>
+                </div>
+                <div class="contact-item">
+                    <a href="tel:+8615357917480">🇨🇳 +86 153 5791 7480</a>
+                </div>
+            </div>
+
+            <div class="contact-category">
+                <h3 class="contact-category-title">🔗 <span data-i18n="contact-social">Social</span></h3>
+                <div class="contact-item">
+                    <a href="https://www.linkedin.com/in/manman-dong" target="_blank">💼 LinkedIn Profile</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>© 2026 <span data-i18n="name">Manman Dong</span>. <span data-i18n="footer">Designed with passion for meaningful connections.</span></p>
+    </footer>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        // Translations
+        const translations = {
+            en: {
+                name: "Manman Dong",
+                "nav-about": "About Me",
+                "nav-education": "Education",
+                "nav-experience": "Experience",
+                "nav-skills": "Skills",
+                "nav-contact": "Contact",
+                "hero-label": "Available Summer 2026",
+                "hero-subtitle": "Digital Marketing Professional",
+                "hero-tagline": "Globally minded, analytical professional with experience across Europe and Asia. Working at the intersection of strategy, collaboration, and data-driven decision-making to create meaningful impact.",
+                "edu-label": "Academic Background",
+                education: "Education",
+                "escp-degree": "Master in Marketing and Digital Media | Big Data & Analytics Track",
+                "escp-location": "Spain - USA - Germany",
+                angers: "University of Angers",
+                "angers-degree": "Bachelor's Degree in Tourism Management",
+                france: "France",
+                "nus-program": "Summer Program",
+                "nus-achievement": "🏆 Ranked 2nd among 20 teams in NUS International Economics and Finance Project",
+                "exp-label": "Career Journey",
+                experience: "Professional Experience",
+                "exp-subtitle": "From Paris to Beijing, delivering measurable impact across marketing, product management, and digital innovation.",
+                china: "China",
+                "aececci-role": "Digital Marketing & Project Management Assistant",
+                "aececci-1": "Led full organization of a Sino-European Business Promotion Conference during VivaTech 2025, connecting with 35 European companies",
+                "aececci-2": "Optimized Zoho CRM system, improving lead tracking efficiency by structuring client data from business events",
+                "aececci-3": "Created marketing visuals increasing online engagement by 30%",
+                "swire-role": "Product Specialist Intern",
+                "swire-1": "Executed 'One Bottle Relay' CSR campaign across 836 stores, ensuring on-time delivery",
+                "swire-2": "Conducted A/B testing using Python, improving in-store conversion by 14%",
+                "swire-3": "Collaborated with cross-functional teams to adapt promotional strategies for local market",
+                "telecom-role": "Product Promotion Intern",
+                "telecom-1": "Facilitated 5G-VR Tourism Experience Project launch across 5 retail centers",
+                "telecom-2": "Analyzed visitor feedback using SQL, increasing demo participation by 25%",
+                "iflytek-role": "Project Management Intern, AI Resources Department",
+                "iflytek-1": "Monitored KPIs for multilingual voice recognition, improving accuracy by 15% weekly",
+                "iflytek-2": "Integrated 10,000+ user data points using Spotfire for customer segmentation",
+                "iflytek-3": "Reduced project turnaround time by 20% through coordination and reporting",
+                "skills-label": "What I Bring",
+                skills: "Technical Arsenal",
+                "skills-subtitle": "Equipped with modern marketing technology and analytical tools to drive results.",
+                "skill-ai": "Artificial Intelligence",
+                languages: "Languages",
+                "lang-chinese": "Chinese",
+                "lang-english": "English",
+                "lang-french": "French",
+                "lang-spanish": "Spanish",
+                "level-native": "Native",
+                hobbies: "Hobbies & Interests",
+                "hobby-photo": "Photography",
+                "hobby-ski": "Skiing",
+                "hobby-travel": "Cross-cultural Experiences",
+                "hobby-vlog": "Vlogging",
+                contact: "Let's Connect",
+                "contact-email": "Email",
+                "contact-call": "Call",
+                "contact-social": "Social",
+                footer: "Designed with passion for meaningful connections."
+            },
+            fr: {
+                name: "Manman Dong",
+                "nav-about": "À Propos",
+                "nav-experience": "Expérience",
+                "nav-skills": "Compétences",
+                "nav-contact": "Contact",
+                "hero-label": "Disponible Été 2026",
+                "hero-subtitle": "Professionnelle du Marketing Digital",
+                "hero-tagline": "Professionnelle analytique à l'esprit international avec expérience en Europe et en Asie. Travaillant à l'intersection de la stratégie, de la collaboration et de la prise de décision basée sur les données pour créer un impact significatif.",
+                "edu-label": "Parcours Académique",
+                education: "Formation",
+                "escp-degree": "Master en Marketing et Médias Digitaux | Spécialisation Big Data & Analytics",
+                "escp-location": "Espagne - USA - Allemagne",
+                angers: "Université d'Angers",
+                "angers-degree": "Licence en Management du Tourisme",
+                france: "France",
+                "nus-program": "Programme d'été",
+                "nus-achievement": "🏆 Classée 2ème parmi 20 équipes au Projet International d'Économie et Finance NUS",
+                "exp-label": "Parcours Professionnel",
+                experience: "Expérience Professionnelle",
+                "exp-subtitle": "De Paris à Pékin, créant un impact mesurable en marketing, gestion de produits et innovation digitale.",
+                china: "Chine",
+                "aececci-role": "Assistante Marketing Digital & Gestion de Projet",
+                "aececci-1": "Organisation complète d'une Conférence de Promotion Commerciale Sino-Européenne pendant VivaTech 2025, avec 35 entreprises européennes",
+                "aececci-2": "Optimisation du système CRM Zoho, amélioration de l'efficacité du suivi des leads",
+                "aececci-3": "Création de visuels marketing augmentant l'engagement en ligne de 30%",
+                "swire-role": "Stagiaire Spécialiste Produit",
+                "swire-1": "Exécution de la campagne RSE 'One Bottle Relay' dans 836 magasins",
+                "swire-2": "Tests A/B avec Python, amélioration de la conversion en magasin de 14%",
+                "swire-3": "Collaboration avec équipes transversales pour adapter les stratégies promotionnelles",
+                "telecom-role": "Stagiaire Promotion Produit",
+                "telecom-1": "Lancement du Projet d'Expérience Touristique 5G-VR dans 5 centres",
+                "telecom-2": "Analyse des retours visiteurs avec SQL, augmentation de 25% de la participation",
+                "iflytek-role": "Stagiaire Gestion de Projet, Département Ressources IA",
+                "iflytek-1": "Suivi des KPI de reconnaissance vocale multilingue, précision améliorée de 15% hebdomadaire",
+                "iflytek-2": "Intégration de 10 000+ points de données utilisateur avec Spotfire",
+                "iflytek-3": "Réduction du temps de projet de 20% via coordination et reporting",
+                "skills-label": "Mes Compétences",
+                skills: "Arsenal Technique",
+                "skills-subtitle": "Équipée des technologies marketing modernes et d'outils analytiques pour obtenir des résultats.",
+                "skill-ai": "Intelligence Artificielle",
+                languages: "Langues",
+                "lang-chinese": "Chinois",
+                "lang-english": "Anglais",
+                "lang-french": "Français",
+                "lang-spanish": "Espagnol",
+                "level-native": "Langue maternelle",
+                hobbies: "Loisirs & Intérêts",
+                "hobby-photo": "Photographie",
+                "hobby-ski": "Ski",
+                "hobby-travel": "Expériences interculturelles",
+                "hobby-vlog": "Vlogging",
+                contact: "Connectons-nous",
+                "contact-email": "Email",
+                "contact-call": "Téléphone",
+                "contact-social": "Réseaux sociaux",
+                footer: "Conçu avec passion pour des connexions significatives."
+            },
+            es: {
+                name: "Manman Dong",
+                "nav-about": "Sobre Mí",
+                "nav-experience": "Experiencia",
+                "nav-skills": "Habilidades",
+                "nav-contact": "Contacto",
+                "hero-label": "Disponible Verano 2026",
+                "hero-subtitle": "Profesional de Marketing Digital",
+                "hero-tagline": "Profesional analítica con mentalidad global y experiencia en Europa y Asia. Trabajando en la intersección de estrategia, colaboración y toma de decisiones basada en datos para crear un impacto significativo.",
+                "edu-label": "Formación Académica",
+                education: "Educación",
+                "escp-degree": "Máster en Marketing y Medios Digitales | Especialización Big Data & Analytics",
+                "escp-location": "España - USA - Alemania",
+                angers: "Universidad de Angers",
+                "angers-degree": "Licenciatura en Gestión del Turismo",
+                france: "Francia",
+                "nus-program": "Programa de Verano",
+                "nus-achievement": "🏆 2ª clasificada entre 20 equipos en el Proyecto Internacional de Economía y Finanzas NUS",
+                "exp-label": "Trayectoria Profesional",
+                experience: "Experiencia Profesional",
+                "exp-subtitle": "De París a Pekín, generando impacto medible en marketing, gestión de productos e innovación digital.",
+                china: "China",
+                "aececci-role": "Asistente de Marketing Digital y Gestión de Proyectos",
+                "aececci-1": "Organización completa de Conferencia de Promoción Comercial Sino-Europea durante VivaTech 2025, conectando con 35 empresas europeas",
+                "aececci-2": "Optimización del sistema CRM Zoho, mejorando la eficiencia del seguimiento de leads",
+                "aececci-3": "Creación de visuales de marketing aumentando el engagement online en 30%",
+                "swire-role": "Becaria Especialista de Producto",
+                "swire-1": "Ejecución de campaña RSC 'One Bottle Relay' en 836 tiendas",
+                "swire-2": "Pruebas A/B usando Python, mejorando la conversión en tienda en 14%",
+                "swire-3": "Colaboración con equipos multifuncionales para adaptar estrategias promocionales",
+                "telecom-role": "Becaria Promoción de Producto",
+                "telecom-1": "Lanzamiento del Proyecto de Experiencia Turística 5G-VR en 5 centros",
+                "telecom-2": "Análisis de feedback con SQL, aumentando participación en demos en 25%",
+                "iflytek-role": "Becaria Gestión de Proyectos, Departamento Recursos IA",
+                "iflytek-1": "Monitoreo de KPIs de reconocimiento de voz multilingüe, mejorando precisión 15% semanalmente",
+                "iflytek-2": "Integración de 10,000+ puntos de datos con Spotfire para segmentación",
+                "iflytek-3": "Reducción del tiempo de proyecto en 20% mediante coordinación y reporting",
+                "skills-label": "Lo que Aporto",
+                skills: "Arsenal Técnico",
+                "skills-subtitle": "Equipada con tecnología de marketing moderna y herramientas analíticas para obtener resultados.",
+                "skill-ai": "Inteligencia Artificial",
+                languages: "Idiomas",
+                "lang-chinese": "Chino",
+                "lang-english": "Inglés",
+                "lang-french": "Francés",
+                "lang-spanish": "Español",
+                "level-native": "Nativo",
+                hobbies: "Aficiones e Intereses",
+                "hobby-photo": "Fotografía",
+                "hobby-ski": "Esquí",
+                "hobby-travel": "Experiencias interculturales",
+                "hobby-vlog": "Vlogging",
+                contact: "Conectemos",
+                "contact-email": "Email",
+                "contact-call": "Teléfono",
+                "contact-social": "Redes sociales",
+                footer: "Diseñado con pasión para conexiones significativas."
+            },
+            zh: {
+                name: "董蔓蔓",
+                "nav-about": "关于我",
+                "nav-experience": "工作经历",
+                "nav-skills": "专业技能",
+                "nav-contact": "联系方式",
+                "hero-label": "2026年夏季可入职",
+                "hero-subtitle": "数字营销专业人士",
+                "hero-tagline": "具有全球视野的分析型专业人士，在欧洲和亚洲拥有丰富经验。致力于在战略、协作和数据驱动决策的交汇点创造有意义的影响。",
+                "edu-label": "教育背景",
+                education: "教育经历",
+                "escp-degree": "市场营销与数字媒体硕士 | 大数据与分析方向",
+                "escp-location": "西班牙 - 美国 - 德国",
+                angers: "昂热大学",
+                "angers-degree": "旅游管理学士学位",
+                france: "法国",
+                "nus-program": "暑期项目",
+                "nus-achievement": "🏆 在新加坡国立大学国际经济与金融项目中在20支队伍中排名第2",
+                "exp-label": "职业历程",
+                experience: "工作经历",
+                "exp-subtitle": "从巴黎到北京，在营销、产品管理和数字创新领域创造可衡量的影响。",
+                china: "中国",
+                "aececci-role": "数字营销与项目管理助理",
+                "aececci-1": "在VivaTech 2025期间全程组织中欧商务推广会议，与35家欧洲公司建立联系",
+                "aececci-2": "优化Zoho CRM系统，通过构建商务活动客户数据提高潜在客户跟踪效率",
+                "aececci-3": "创建营销视觉内容，线上互动率提升30%",
+                "swire-role": "产品专员实习生",
+                "swire-1": "在836家门店执行\"一瓶接力\"企业社会责任活动，确保按时交付",
+                "swire-2": "使用Python进行A/B测试，店内转化率提升14%",
+                "swire-3": "与跨职能团队合作，为本地市场调整促销策略",
+                "telecom-role": "产品推广实习生",
+                "telecom-1": "协助在5个零售中心推出5G-VR旅游体验项目",
+                "telecom-2": "使用SQL分析访客反馈，演示参与度提升25%",
+                "iflytek-role": "项目管理实习生，人工智能资源部",
+                "iflytek-1": "监控多语言语音识别KPI，每周准确率提升15%",
+                "iflytek-2": "使用Spotfire整合10,000+用户数据点进行客户细分",
+                "iflytek-3": "通过协调和报告，项目周转时间缩短20%",
+                "skills-label": "我的优势",
+                skills: "技术工具库",
+                "skills-subtitle": "配备现代营销技术和分析工具以推动成果。",
+                "skill-ai": "人工智能",
+                languages: "语言能力",
+                "lang-chinese": "中文",
+                "lang-english": "英语",
+                "lang-french": "法语",
+                "lang-spanish": "西班牙语",
+                "level-native": "母语",
+                hobbies: "兴趣爱好",
+                "hobby-photo": "摄影",
+                "hobby-ski": "滑雪",
+                "hobby-travel": "跨文化体验",
+                "hobby-vlog": "视频博客",
+                contact: "联系方式",
+                "contact-email": "邮箱",
+                "contact-call": "电话",
+                "contact-social": "社交媒体",
+                footer: "用心设计，建立有意义的连接。"
+            },
+            de: {
+                name: "Manman Dong",
+                "nav-about": "Über Mich",
+                "nav-experience": "Erfahrung",
+                "nav-skills": "Fähigkeiten",
+                "nav-contact": "Kontakt",
+                "hero-label": "Verfügbar Sommer 2026",
+                "hero-subtitle": "Digital Marketing Expertin",
+                "hero-tagline": "International denkende, analytische Fachkraft mit Erfahrung in Europa und Asien. Arbeitet an der Schnittstelle von Strategie, Zusammenarbeit und datengetriebener Entscheidungsfindung, um bedeutungsvolle Wirkung zu erzielen.",
+                "edu-label": "Akademischer Werdegang",
+                education: "Ausbildung",
+                "escp-degree": "Master in Marketing und Digitalen Medien | Big Data & Analytics Schwerpunkt",
+                "escp-location": "Spanien - USA - Deutschland",
+                angers: "Universität Angers",
+                "angers-degree": "Bachelor in Tourismusmanagement",
+                france: "Frankreich",
+                "nus-program": "Sommerprogramm",
+                "nus-achievement": "🏆 2. Platz unter 20 Teams im NUS International Economics and Finance Projekt",
+                "exp-label": "Karriereweg",
+                experience: "Berufserfahrung",
+                "exp-subtitle": "Von Paris bis Peking, messbare Wirkung in Marketing, Produktmanagement und digitaler Innovation.",
+                china: "China",
+                "aececci-role": "Assistentin Digitales Marketing & Projektmanagement",
+                "aececci-1": "Vollständige Organisation der Sino-Europäischen Geschäftsförderungskonferenz während VivaTech 2025, Vernetzung mit 35 europäischen Unternehmen",
+                "aececci-2": "Optimierung des Zoho CRM-Systems, Verbesserung der Lead-Tracking-Effizienz",
+                "aececci-3": "Erstellung von Marketing-Visuals mit 30% Steigerung des Online-Engagements",
+                "swire-role": "Praktikantin Produktspezialistin",
+                "swire-1": "Durchführung der 'One Bottle Relay' CSR-Kampagne in 836 Geschäften",
+                "swire-2": "A/B-Tests mit Python, Verbesserung der Store-Conversion um 14%",
+                "swire-3": "Zusammenarbeit mit funktionsübergreifenden Teams zur Anpassung von Werbestrategien",
+                "telecom-role": "Praktikantin Produktförderung",
+                "telecom-1": "Einführung des 5G-VR Tourismus-Erlebnisprojekts in 5 Einzelhandelszentren",
+                "telecom-2": "Analyse von Besucherfeedback mit SQL, Steigerung der Demo-Teilnahme um 25%",
+                "iflytek-role": "Praktikantin Projektmanagement, KI-Ressourcen-Abteilung",
+                "iflytek-1": "Überwachung von KPIs für mehrsprachige Spracherkennung, wöchentliche Genauigkeitsverbesserung um 15%",
+                "iflytek-2": "Integration von 10.000+ Nutzerdatenpunkten mit Spotfire für Kundensegmentierung",
+                "iflytek-3": "Reduzierung der Projektdurchlaufzeit um 20% durch Koordination und Reporting",
+                "skills-label": "Was Ich Mitbringe",
+                skills: "Technisches Arsenal",
+                "skills-subtitle": "Ausgestattet mit modernen Marketing-Technologien und Analyse-Tools für Ergebnisse.",
+                "skill-ai": "Künstliche Intelligenz",
+                languages: "Sprachen",
+                "lang-chinese": "Chinesisch",
+                "lang-english": "Englisch",
+                "lang-french": "Französisch",
+                "lang-spanish": "Spanisch",
+                "level-native": "Muttersprache",
+                hobbies: "Hobbys & Interessen",
+                "hobby-photo": "Fotografie",
+                "hobby-ski": "Skifahren",
+                "hobby-travel": "Interkulturelle Erfahrungen",
+                "hobby-vlog": "Vlogging",
+                contact: "Kontakt",
+                "contact-email": "E-Mail",
+                "contact-call": "Telefon",
+                "contact-social": "Soziale Medien",
+                footer: "Mit Leidenschaft für bedeutungsvolle Verbindungen gestaltet."
+            }
+        };
+
+        let currentLang = 'en';
+
+        // Custom Cursor
+        const cursor = document.querySelector('.cursor');
+        if (window.innerWidth > 768) {
+            document.addEventListener('mousemove', (e) => {
+                cursor.style.left = e.clientX + 'px';
+                cursor.style.top = e.clientY + 'px';
+            });
+
+            const hoverElements = document.querySelectorAll('a, button, .timeline-item, .skill-item, .info-card, .contact-item, .btn, .education-card');
+            hoverElements.forEach(el => {
+                el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+                el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+            });
+        }
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+
+            // Update active nav link
+            const sections = document.querySelectorAll('.section, .hero-section');
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            sections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top <= 100 && rect.bottom >= 100) {
+                    const id = section.getAttribute('id');
+                    navLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === `#${id}`) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        });
+
+        // Language Dropdown
+        const langDropdown = document.getElementById('langDropdown');
+        const langBtn = document.getElementById('langBtn');
+        const langMenu = document.getElementById('langMenu');
+        const currentLangSpan = document.getElementById('currentLang');
+
+        langBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            langDropdown.classList.toggle('active');
+        });
+
+        document.addEventListener('click', () => {
+            langDropdown.classList.remove('active');
+        });
+
+        langMenu.addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+
+        // Language switching
+        const langNames = {
+            en: 'English',
+            fr: 'Français',
+            es: 'Español',
+            zh: '中文',
+            de: 'Deutsch'
+        };
+
+        document.querySelectorAll('.lang-option').forEach(option => {
+            option.addEventListener('click', () => {
+                const lang = option.getAttribute('data-lang');
+                switchLanguage(lang);
+                
+                document.querySelectorAll('.lang-option').forEach(opt => opt.classList.remove('active'));
+                option.classList.add('active');
+                
+                currentLangSpan.textContent = langNames[lang];
+                langDropdown.classList.remove('active');
+            });
+        });
+
+        function switchLanguage(lang) {
+            currentLang = lang;
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    el.textContent = translations[lang][key];
+                }
+            });
+        }
+
+        // Smooth scroll for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const offset = 80;
+                    const targetPosition = target.offsetTop - offset;
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform =
